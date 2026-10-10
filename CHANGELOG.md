@@ -11,5 +11,6 @@
 - Workflows de teste/experimento organizados; exports inativos sem credenciais de instância, dados fixados ou Authorization literal.
 - Backup usa diretório configurável/volume real, inclui configuração do override e relata falha de restart.
 - Atualizados guias, inventário, roadmap e CI; acrescentados testes de dados/temas/contratos/backup e regressão de navegador.
+- Ajustado o comando de testes para compatibilidade com o Node 22 do CI após a primeira execução remota.
 
 O histórico anterior permanece nos commits Git. Esta revisão não aplica alterações na VPS nem ativa workflows.

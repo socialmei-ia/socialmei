@@ -24,6 +24,8 @@ Após a liberação das permissões do ambiente, o navegador e o TestClient pude
 
 A branch `chore/project-review` foi enviada ao GitHub e o [PR #6](https://github.com/socialmei-ia/SocialMEI-IA/pull/6) foi aberto como rascunho. O CI remoto precisa ser conferido antes do merge. A publicação não aplica mudanças na VPS.
 
+A primeira execução do CI identificou uma opção de testes indisponível no Node 22: `--test-isolation=none`. O comando foi corrigido para `node --test tests/*.test.cjs`, mantendo os 15 testes. O ambiente local usa Node 24; a compatibilidade com Node 22 é verificada pelo job remoto.
+
 ## Não executado nesta revisão
 
 - O daemon Docker local ficou acessível após a liberação, mas build/containers, Caddy/TLS, PostgreSQL, n8n e WAHA não foram executados. A validação Compose não prova funcionamento da infraestrutura.
