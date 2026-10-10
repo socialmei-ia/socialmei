@@ -1,5 +1,42 @@
 # Docker
 
+## Desenvolvimento local da equipe
+
+Use `compose.dev.yaml` para desenvolvimento. Ele é separado do Compose de produção e cria volumes locais próprios.
+
+```bash
+npm ci
+npm run setup
+npm run dev
+```
+
+Serviços padrão:
+
+- frontend em http://localhost:5500;
+- PostgreSQL local na porta 5433;
+- n8n em http://localhost:5678;
+- FastAPI em http://localhost:8000.
+
+Ferramentas opcionais:
+
+```bash
+npm run dev:tools   # inclui pgAdmin em http://localhost:5050
+npm run dev:waha    # inclui WAHA em http://localhost:3000
+```
+
+Diagnóstico:
+
+```bash
+npm run status
+npm run logs
+npm run dev:config
+npm run stop
+```
+
+Não use as credenciais de desenvolvimento em staging ou produção. Cada integrante deve manter seus próprios volumes locais.
+
+## Produção
+
 O procedimento de preparação, publicação, atualização e rollback está em [DEPLOYMENT.md](../DEPLOYMENT.md).
 
 `compose.yaml` define PostgreSQL, n8n, pgAdmin, Caddy, Python e WAHA. `compose.override.yaml` é uma entrada vazia de compatibilidade; não existe mais uma segunda definição WAHA.
