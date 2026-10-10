@@ -21,8 +21,9 @@ Explique os passos para outra pessoa reproduzir a validação.
 - [ ] Testei o que alterei
 - [ ] Não adicionei `.env`, senhas, tokens ou chaves privadas
 - [ ] Atualizei documentação quando necessário
-- [ ] Mantive `index.html` e `frontend/socialmei-dashboard.html` sincronizados se alterei o dashboard
-- [ ] Validei `docker compose config` se alterei infraestrutura
+- [ ] Editei a fonte oficial em `frontend/` e preservei as entradas de compatibilidade
+- [ ] Executei `npm test`, `format:check` e os testes pertinentes
+- [ ] Validei `docker compose config --quiet` se alterei infraestrutura
 - [ ] Expliquei rollback se a mudança puder afetar produção
 
 ## Evidências

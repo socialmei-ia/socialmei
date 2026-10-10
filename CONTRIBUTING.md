@@ -32,10 +32,13 @@ Abra um Pull Request para `main`.
 
 ## Antes do PR
 
-- teste o dashboard em desktop/mobile se alterou UI;
+- rode `npm test` e `npm run format:check`;
+- rode `npm run test:browser` para validar frontend (veja [DEVELOPMENT.md](./DEVELOPMENT.md));
+- execute os testes Python e de backup quando alterar essas áreas;
+- teste o app em desktop/mobile se alterou UI;
 - valide a Caixa Unificada se mexeu no atendimento;
 - revise SQL se alterou banco;
-- rode `docker compose config` se alterou infraestrutura;
+- rode `docker compose config --quiet` se alterou infraestrutura;
 - atualize documentação;
 - explique como testar;
 - explique rollback se houver impacto em produção;

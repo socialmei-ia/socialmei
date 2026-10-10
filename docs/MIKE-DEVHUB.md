@@ -17,14 +17,16 @@ Problemas comuns durante o projeto:
 - "Como atualizo uma imagem Docker?"
 - "Como descubro se o servidor está sem memória ou disco?"
 
-O DevHub centraliza essas respostas em um único HTML portátil.
+O DevHub centraliza essas respostas em uma interface estática. A fonte é organizada em `mike-devhub.html`, `devhub.css` e `devhub.js`; o botão **Baixar HTML único** reúne os recursos em um arquivo portátil com configuração compartilhável.
 
 ## Acesso
 
 - **GitHub Pages:** https://socialmei-ia.github.io/SocialMEI-IA/tools/mike-devhub.html
 - **Arquivo versionado:** `tools/mike-devhub.html`
 
-O arquivo também pode ser baixado e aberto localmente no navegador.
+Sirva a raiz do repositório com HTTP para trabalhar na fonte. O HTML único exportado pelo botão pode ser aberto localmente. O download precisa alcançar CSS/JavaScript; erro de rede é informado, sem oferecer um arquivo incompleto.
+
+Os comandos antigos que copiavam frontend para `index.html` foram substituídos por validação/diff. O arquivo oficial é `frontend/socialmei-app.html`; as entradas antigas redirecionam.
 
 ## O que existe na versão atual
 
@@ -65,21 +67,21 @@ Quando existe uma rotina completa, a busca prioriza uma **receita** em vez de ap
 
 ## Áreas cobertas
 
-| Área | Exemplos |
-| --- | --- |
-| PowerShell | clone, navegação local, servidor HTTP, ferramentas |
-| SSH | acesso à VPS, chave PEM, permissões |
-| Git/GitHub | status, branch, commit, push, pull, remote e histórico |
-| Linux/VPS | disco, memória, uptime, arquivos e pacotes |
-| Docker | containers, logs, inspect, stats e diagnóstico |
-| Docker Compose | validação, pull, up, restart e serviços |
-| n8n | abertura, logs, restart, workflows e testes |
-| PostgreSQL | psql, tabelas, schema, INSERT, migrations, backup/restore |
-| Python/FastAPI | instalação, venv, dependências, API e healthcheck |
-| Caddy | validação, reload e logs |
-| Deploy | comparação com origin/main e atualização controlada |
-| Dashboard | publicação, comparação e teste HTTP |
-| AWS | EC2, IP, Security Group e acesso ao servidor |
+| Área           | Exemplos                                                  |
+| -------------- | --------------------------------------------------------- |
+| PowerShell     | clone, navegação local, servidor HTTP, ferramentas        |
+| SSH            | acesso à VPS, chave PEM, permissões                       |
+| Git/GitHub     | status, branch, commit, push, pull, remote e histórico    |
+| Linux/VPS      | disco, memória, uptime, arquivos e pacotes                |
+| Docker         | containers, logs, inspect, stats e diagnóstico            |
+| Docker Compose | validação, pull, up, restart e serviços                   |
+| n8n            | abertura, logs, restart, workflows e testes               |
+| PostgreSQL     | psql, tabelas, schema, INSERT, migrations, backup/restore |
+| Python/FastAPI | instalação, venv, dependências, API e healthcheck         |
+| Caddy          | validação, reload e logs                                  |
+| Deploy         | comparação com origin/main e atualização controlada       |
+| Dashboard      | publicação, comparação e teste HTTP                       |
+| AWS            | EC2, IP, Security Group e acesso ao servidor              |
 
 ## Segurança
 

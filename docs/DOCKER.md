@@ -1,158 +1,27 @@
-# Docker e infraestrutura — guia da equipe
+# Docker
 
-> Guia prático para adicionar, alterar e recuperar serviços sem deixar mudanças apenas na VPS.
+O procedimento de preparação, publicação, atualização e rollback está em [DEPLOYMENT.md](../DEPLOYMENT.md).
 
-## Regra principal
+`compose.yaml` define PostgreSQL, n8n, pgAdmin, Caddy, Python e WAHA. `compose.override.yaml` é uma entrada vazia de compatibilidade; não existe mais uma segunda definição WAHA.
 
-Qualquer integrante pode **preparar** uma mudança pelo GitHub. Somente responsáveis autorizados pela infraestrutura devem **aplicar** a mudança na VPS.
-
-```mermaid
-flowchart LR
-    A["Integrante"] --> B["Branch"]
-    B --> C["Pull Request"]
-    C --> D["Revisão"]
-    D --> E["Responsável pela VPS"]
-    E --> F["docker compose config"]
-    F --> G["Aplicar serviço"]
-    G --> H["Testar + documentar"]
-```
-
-Acesso ao Docker oferece poder administrativo elevado sobre o servidor. Não é necessário dar Docker para toda a equipe.
-
-## Serviços atuais
-
-| Serviço | Container | Função | Exposição |
-|---|---|---|---|
-| Caddy | `socialmei-caddy` | HTTPS / reverse proxy | 80 e 443 |
-| n8n | `socialmei-n8n` | automações e webhooks | rede Docker/Caddy |
-| PostgreSQL | `socialmei-postgres` | banco principal | **5432 apenas interna** |
-| pgAdmin | `socialmei-pgadmin` | administração web do banco | rede Docker/Caddy |
-| FastAPI | `socialmei-python` | API Python | HTTPS via Caddy + rede Docker |
-| WAHA | `socialmei-waha` | integração com WhatsApp | HTTPS via Caddy; porta 3000 presa ao localhost da VPS |
-
-## Quero instalar um novo programa
-
-### 1. Criar branch
+## Diagnóstico
 
 ```bash
-git switch main
-git pull origin main
-git switch -c feat/adicionar-novo-servico
-```
-
-### 2. Alterar o Compose
-
-Boas práticas:
-
-- prefira versão fixa de imagem em vez de `:latest` quando possível;
-- use `restart: unless-stopped`;
-- use volume nomeado para dados persistentes;
-- adicione `healthcheck` quando suportado;
-- mantenha segredos no `.env`;
-- não publique portas sem necessidade;
-- para serviço web, prefira acesso por Caddy;
-- documente variáveis novas em `.env.example`.
-
-### 3. Validar
-
-```bash
-docker compose config >/dev/null && echo "COMPOSE OK" || echo "ERRO NO COMPOSE"
-```
-
-Se der erro, não aplique.
-
-### 4. Abrir Pull Request
-
-Inclua objetivo, teste, variáveis/volumes/portas e rollback.
-
-### 5. Aplicar somente o necessário
-
-Antes:
-
-```bash
+docker compose config --quiet
 docker compose ps
+docker compose logs --tail 100 NOME_DO_SERVICO
 ```
 
-Subir serviço:
+Para validar somente a estrutura com placeholders:
 
 ```bash
-docker compose up -d --no-deps NOME_DO_SERVICO
+docker compose --env-file .env.example config --quiet
 ```
 
-Recriar apenas ele:
+Evite publicar o resultado completo de `docker compose config`: ele pode conter valores do `.env`. A validação não verifica disponibilidade de imagens, credenciais, certificado ou saúde da VPS.
 
-```bash
-docker compose up -d --no-deps --force-recreate NOME_DO_SERVICO
-```
+Caddy usa 80/443; PostgreSQL não publica 5432; o bind WAHA é `127.0.0.1:3000`. Username, password e API key WAHA são obrigatórios na configuração. A comunicação n8n → WAHA usa `http://waha:3000` e exige credencial conforme a versão instalada.
 
-## Logs e diagnóstico
+Não mude o project name nem apague volumes para aplicar uma revisão. `latest` ainda é dívida técnica; fixe versões depois de validá-las em teste. SQL/workflows não são inicializados automaticamente pelo Compose.
 
-```bash
-docker logs --tail 100 NOME_DO_CONTAINER
-docker compose ps
-docker compose config
-```
-
-Para acompanhar:
-
-```bash
-docker logs -f NOME_DO_CONTAINER
-```
-
-## Cuidado extra
-
-Faça backup e planeje rollback antes de:
-
-- apagar/recriar volumes;
-- migrations destrutivas;
-- trocar banco;
-- alterar credenciais de produção;
-- trocar a chave de criptografia do n8n;
-- publicar novas portas;
-- usar `docker compose down -v`.
-
-> Não altere a chave de criptografia do n8n de forma improvisada. Ela protege credenciais salvas.
-
-## Rollback
-
-1. pare novas alterações;
-2. identifique o commit;
-3. reverta/restaure pelo GitHub;
-4. valide `docker compose config`;
-5. recrie somente o serviço afetado;
-6. confira logs e status;
-7. teste o fluxo.
-
-## Não faça
-
-- editar Compose só na VPS e esquecer o GitHub;
-- compartilhar `.env`, `.pem`, tokens ou senhas;
-- expor PostgreSQL diretamente;
-- usar `down -v` sem entender o impacto;
-- apagar volume sem backup;
-- dar Docker a todos por conveniência;
-- instalar manualmente algo que pode ser reproduzido pelo Compose.
-
-## Novos responsáveis
-
-SSH e Docker são concedidos sob demanda. Veja [ACESSOS.md](./ACESSOS.md).
-
-
-## WAHA e API Python no ambiente atual
-
-O WAHA roda no mesmo projeto Docker do SocialMEI e persiste sessões no volume `waha_sessions`. O n8n pode acessar o serviço internamente por `http://waha:3000`.
-
-A porta 3000 não é publicada diretamente para a internet: o bind é `127.0.0.1:3000:3000`. O acesso da equipe ao Dashboard passa pelo Caddy em HTTPS:
-
-`https://waha.54-94-213-7.sslip.io/dashboard`
-
-A FastAPI também é publicada pelo Caddy:
-
-`https://api.54-94-213-7.sslip.io`
-
-Endpoints de verificação usados atualmente:
-
-- `https://api.54-94-213-7.sslip.io/health`
-- `https://api.54-94-213-7.sslip.io/docs`
-
-Credenciais do WAHA e sua API key devem permanecer somente no `.env` real do servidor. Nunca faça commit desses valores.
+Mudanças seguem branch → PR → revisão → aplicação por responsável pela infraestrutura. Veja [ACESSOS.md](ACESSOS.md).

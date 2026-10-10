@@ -6,10 +6,10 @@
     reverse_proxy pgadmin:80
 }
 
-waha.54-94-213-7.sslip.io {
+{$WAHA_HOST:waha.54-94-213-7.sslip.io} {
     reverse_proxy waha:3000
 }
 
-api.54-94-213-7.sslip.io {
+{$PYTHON_API_HOST:api.54-94-213-7.sslip.io} {
     reverse_proxy python-api:8000
 }

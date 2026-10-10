@@ -27,3 +27,18 @@ compose.yaml.antes-python-*
 Thumbs.db
 .vscode/
 .idea/
+
+# Dependências, testes e ferramentas locais
+node_modules/
+.pytest_cache/
+.coverage
+htmlcov/
+playwright-report/
+test-results/
+work/
+dist/
+.envrc
+credentials*.json
+*.p12
+*.pfx
+compose.local.yaml

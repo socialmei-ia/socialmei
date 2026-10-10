@@ -2,6 +2,8 @@
 
 ## Objetivo
 
+Este guia descreve o schema versionado, não uma verificação atual da VPS. Somente o histórico de atendimento tem SQL de persistência; os módulos de gestão permanecem locais no frontend.
+
 O PostgreSQL guarda o histórico persistente da Caixa Unificada. A equipe não depende do computador de um integrante: o banco fica no servidor e o acesso humano é feito preferencialmente pelo **pgAdmin via HTTPS**.
 
 ## Arquitetura
@@ -41,10 +43,10 @@ Veja também [ACESSOS.md](./ACESSOS.md).
 
 ## Roles atuais
 
-| Role | Uso | Princípio |
-|---|---|---|
-| `socialmei_admin` | manutenção estrutural do schema funcional | administrativo, uso restrito |
-| `socialmei_app` | n8n / automações | leitura e escrita funcional sem privilégios administrativos |
+| Role              | Uso                                       | Princípio                                                   |
+| ----------------- | ----------------------------------------- | ----------------------------------------------------------- |
+| `socialmei_admin` | manutenção estrutural do schema funcional | administrativo, uso restrito                                |
+| `socialmei_app`   | n8n / automações                          | leitura e escrita funcional sem privilégios administrativos |
 
 As senhas não ficam no GitHub.
 
@@ -53,6 +55,12 @@ As senhas não ficam no GitHub.
 - `database/bootstrap.sql` — prepara o schema com a role administrativa já criada;
 - `database/schema.sql` — cria tabelas, índices e restrições;
 - `database/permissions.sql` — aplica permissões da role técnica de automação.
+
+Em ambiente **novo e isolado**, crie `socialmei_admin` e defina a senha interativamente (`\password socialmei_admin`) usando um administrador. Aplique bootstrap com administrador, schema como `socialmei_admin` e permissions com administrador. As tabelas precisam pertencer a `socialmei_admin` para que seus default privileges se apliquem às próximas tabelas.
+
+Esses arquivos citam o banco `n8n`; se `POSTGRES_DB` for outro, revise os grants antes de aplicar. O Compose não monta nem executa esses scripts automaticamente. Não há migrations incrementais versionadas; `CREATE TABLE IF NOT EXISTS` não atualiza uma tabela existente para um schema novo.
+
+Não foram executados SQL, permissões ou restauração em um PostgreSQL real nesta revisão. O workflow insere mensagens sem deduplicação de evento externo e retorna só as últimas 50 mensagens de entrada; veja [ARCHITECTURE.md](../ARCHITECTURE.md) e [ROADMAP.md](../ROADMAP.md).
 
 ## Alterando a estrutura
 
