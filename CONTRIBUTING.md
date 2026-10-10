@@ -2,6 +2,18 @@
 
 O objetivo é permitir que qualquer integrante contribua sem precisar editar produção diretamente.
 
+## Ambiente local
+
+Antes de criar sua branch:
+
+```bash
+npm ci
+npm run setup
+npm run dev
+```
+
+O ambiente padrão é local e isolado. Veja [docs/ONBOARDING.md](./docs/ONBOARDING.md).
+
 ## Fluxo recomendado
 
 ```bash
