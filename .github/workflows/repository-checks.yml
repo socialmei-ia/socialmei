@@ -6,69 +6,71 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Validate JSON files
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install maintenance tools
+        run: npm ci
+      - name: Contracts and repository structure
+        run: npm test
+      - name: Formatting
+        run: npm run format:check
+      - name: Python contracts
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          import json
-          failures = []
-          for path in Path(".").rglob("*.json"):
-              if ".git" in path.parts:
-                  continue
-              try:
-                  json.loads(path.read_text(encoding="utf-8"))
-              except Exception as exc:
-                  failures.append(f"{path}: {exc}")
-          if failures:
-              raise SystemExit("\n".join(failures))
-          print("JSON OK")
-          PY
-
-      - name: Keep published and editable dashboards synchronized
-        run: |
-          cmp -s index.html frontend/socialmei-dashboard.html || {
-            echo "index.html e frontend/socialmei-dashboard.html estão diferentes."
-            exit 1
-          }
-          echo "Dashboard sync OK"
-
-      - name: Check official README assets
+          python -m pip install -r python-service/requirements.txt
+          python -m unittest discover -s python-service -p 'test_*.py'
+      - name: Backup failure and recovery scenarios
+        run: python -m unittest discover -s tests -p 'test_*.py'
+      - name: Shell syntax
+        run: bash -n backup.sh
+      - name: Compose configuration without starting services
+        run: docker compose --env-file .env.example config --quiet
+      - name: README assets and stale repository URLs
         run: |
           test -f docs/assets/socialmei-banner.png
           test -f docs/assets/socialmei-logo.png
-          echo "Assets OK"
-
-      - name: Reject stale repository URLs
-        run: |
-          if grep -R -n -E 'socialmei-ia\.github\.io/socialmei/|github\.com/socialmei-ia/socialmei([/#.]|$)' \
-            --include='*.md' --include='*.yml' --include='*.yaml' \
-            --exclude='repository-checks.yml' .; then
-            echo "Foram encontradas URLs antigas do repositório."
+          if rg -n 'socialmei-ia\.github\.io/socialmei/|github\.com/socialmei-ia/socialmei([/#.]|$)' \
+            --glob '*.md' --glob '*.yml' --glob '*.yaml' \
+            --glob '!repository-checks.yml' --glob '!node_modules/**' .; then
+            echo 'Foram encontradas URLs antigas do repositório.'
             exit 1
           fi
-          echo "Repository URLs OK"
 
-      - name: Validate Docker Compose
-        env:
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test-password
-          POSTGRES_DB: n8n
-          N8N_ENCRYPTION_KEY: test-encryption-key-32-characters
-          N8N_HOST: n8n.example.test
-          N8N_PROTOCOL: https
-          N8N_EDITOR_BASE_URL: https://n8n.example.test
-          N8N_WEBHOOK_URL: https://n8n.example.test
-          N8N_PROXY_HOPS: "1"
-          PGADMIN_HOST: db.example.test
-          PGADMIN_DEFAULT_EMAIL: admin@example.test
-          PGADMIN_DEFAULT_PASSWORD: test-password
-          TZ: America/Recife
-          GENERIC_TIMEZONE: America/Recife
-        run: docker compose config --quiet
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install tools and Chromium
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Offline application regression
+        run: npm run test:browser
+      - name: Save browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-regression
+          path: test-results/
+          if-no-files-found: ignore
