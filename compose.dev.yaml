@@ -1,0 +1,125 @@
+services:
+  frontend:
+    image: python:3.12-alpine
+    container_name: socialmei-dev-frontend
+    working_dir: /workspace
+    command: python -m http.server 5500 --bind 0.0.0.0
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-5500}:5500"
+    volumes:
+      - ./:/workspace:ro
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: socialmei-dev-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-socialmei_dev}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-socialmei_dev_local}
+      POSTGRES_DB: ${POSTGRES_DB:-socialmei_dev}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-socialmei_dev} -d ${POSTGRES_DB:-socialmei_dev}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: socialmei-dev-n8n
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${N8N_PORT:-5678}:5678"
+    environment:
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_DATABASE: ${POSTGRES_DB:-socialmei_dev}
+      DB_POSTGRESDB_USER: ${POSTGRES_USER:-socialmei_dev}
+      DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD:-socialmei_dev_local}
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:-socialmei-development-only-key}
+      N8N_HOST: localhost
+      N8N_PROTOCOL: http
+      N8N_EDITOR_BASE_URL: http://localhost:${N8N_PORT:-5678}
+      WEBHOOK_URL: http://localhost:${N8N_PORT:-5678}/
+      N8N_SECURE_COOKIE: "false"
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+      TZ: ${TZ:-America/Recife}
+      GENERIC_TIMEZONE: ${GENERIC_TIMEZONE:-America/Recife}
+    volumes:
+      - n8n_dev_data:/home/node/.n8n
+
+  python-api:
+    build:
+      context: ./python-service
+    container_name: socialmei-dev-python
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${PYTHON_API_PORT:-8000}:8000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: socialmei-dev-pgadmin
+    profiles: ["tools"]
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${PGADMIN_PORT:-5050}:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-dev@socialmei.local}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-socialmei_dev_local}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    volumes:
+      - pgadmin_dev_data:/var/lib/pgadmin
+
+  waha:
+    image: devlikeapro/waha:latest
+    platform: linux/amd64
+    container_name: socialmei-dev-waha
+    profiles: ["waha"]
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${WAHA_PORT:-3000}:3000"
+    environment:
+      WHATSAPP_DEFAULT_ENGINE: GOWS
+      WAHA_DASHBOARD_ENABLED: "true"
+      WAHA_DASHBOARD_USERNAME: ${WAHA_DASHBOARD_USERNAME:-dev}
+      WAHA_DASHBOARD_PASSWORD: ${WAHA_DASHBOARD_PASSWORD:-socialmei_dev_local}
+      WAHA_API_KEY: ${WAHA_API_KEY:-socialmei-dev-api-key}
+      WAHA_NAMESPACE: all
+    volumes:
+      - waha_dev_sessions:/app/.sessions
+      - waha_dev_media:/app/.media
+
+volumes:
+  postgres_dev_data:
+  n8n_dev_data:
+  pgadmin_dev_data:
+  waha_dev_sessions:
+  waha_dev_media:
