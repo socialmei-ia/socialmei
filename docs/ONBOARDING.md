@@ -20,3 +20,17 @@
 Não é necessário SSH/AWS para editar e testar o frontend. A aplicação possui login local demonstrativo; isso não concede acesso aos serviços remotos. Aplicação na VPS fica com os responsáveis autorizados.
 
 Não versione `.env`, chaves, credenciais, dumps, screenshots com dados reais ou novos HTMLs de backup. O Git preserva as versões anteriores.
+
+
+## Banco local e migrations
+
+Depois de subir o ambiente:
+
+```bash
+npm run db:status
+npm run db:migrate
+```
+
+Cada integrante aplica migrations somente no seu PostgreSQL local durante desenvolvimento.
+
+Nunca use `npm run db:migrate` apontando para produção. O executor atual foi feito especificamente para o Compose local.
