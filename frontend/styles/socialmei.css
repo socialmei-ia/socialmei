@@ -4322,6 +4322,30 @@ body.experience-app #experienceRoot {
   background: #1964be;
   color: #fff;
 }
+@media (max-width: 760px) {
+  .landing-demo-access {
+    grid-template-columns: 1fr;
+    border-radius: 18px;
+    padding: 24px;
+  }
+  .landing-demo-access-points {
+    border-left: 0;
+    border-top: 1px solid var(--landing-border);
+    padding: 10px 0 0;
+  }
+  .landing-demo-access-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .landing-demo-access-actions .landing-button {
+    width: 100%;
+    justify-content: center;
+  }
+  .landing-footer-status {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
 .landing-page :focus-visible {
   outline: 3px solid var(--landing-kicker);
   outline-offset: 5px;
@@ -15682,6 +15706,87 @@ body.management-active #per {
   line-height: 1.6;
   text-align: center;
 }
+.landing-demo-access {
+  max-width: 980px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: stretch;
+  padding: clamp(28px, 5vw, 52px);
+  border: 1px solid var(--landing-border);
+  border-radius: 24px;
+  background:
+    radial-gradient(
+      circle at 12% 4%,
+      color-mix(in srgb, var(--landing-kicker) 11%, transparent),
+      transparent 34%
+    ),
+    var(--landing-surface);
+  box-shadow: var(--landing-shadow-soft);
+}
+.landing-demo-access-copy {
+  align-self: center;
+  min-width: 0;
+}
+.landing-demo-access-copy h3 {
+  max-width: 620px;
+  margin: 12px 0 14px;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+.landing-demo-access-copy > p {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--landing-muted);
+  font-size: 15px;
+  line-height: 1.75;
+}
+.landing-demo-access-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+.landing-demo-access-points {
+  display: grid;
+  align-content: center;
+  border-left: 1px solid var(--landing-border);
+  padding-left: clamp(24px, 4vw, 44px);
+}
+.landing-demo-access-points > div {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  column-gap: 12px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--landing-border);
+}
+.landing-demo-access-points > div:last-child {
+  border-bottom: 0;
+}
+.landing-demo-access-points span {
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--landing-surface-soft);
+  color: var(--landing-kicker);
+  border: 1px solid var(--landing-border);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.landing-demo-access-points b {
+  font-size: 14px;
+}
+.landing-demo-access-points small {
+  margin-top: 4px;
+  color: var(--landing-muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
 .landing-faq-list {
   max-width: 840px;
   margin-inline: auto;
@@ -15798,7 +15903,10 @@ body.management-active #per {
 }
 .landing-footer-grid {
   display: grid;
-  grid-template-columns: 1.3fr 0.9fr 0.9fr 1.1fr 1fr;
+  grid-template-columns: minmax(220px, 1.35fr) minmax(150px, 0.8fr) minmax(150px, 0.8fr) minmax(
+      240px,
+      1.15fr
+    );
   gap: 24px;
 }
 .landing-footer-grid > nav,
@@ -15845,6 +15953,30 @@ body.management-active #per {
   font-size: 12px;
   color: var(--landing-muted);
   line-height: 1.7;
+}
+.landing-footer-status {
+  padding-left: 20px;
+  border-left: 1px solid var(--landing-border);
+}
+.landing-footer-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 5px 10px;
+  border: 1px solid var(--landing-border);
+  border-radius: 999px;
+  background: var(--landing-surface-soft);
+  color: var(--landing-text) !important;
+  font-size: 11px !important;
+  font-weight: 600;
+}
+.landing-footer-status-pill i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--landing-kicker);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--landing-kicker) 12%, transparent);
 }
 .landing-footer-bottom {
   display: flex;

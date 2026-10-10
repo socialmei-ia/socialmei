@@ -43,6 +43,7 @@ jobs:
       - name: README assets and stale repository URLs
         run: |
           test -f docs/assets/socialmei-banner.png
+          test -f docs/assets/socialmei-banner.svg
           test -f docs/assets/socialmei-logo.png
           if rg -n 'socialmei-ia\.github\.io/socialmei/|github\.com/socialmei-ia/socialmei([/#.]|$)' \
             --glob '*.md' --glob '*.yml' --glob '*.yaml' \

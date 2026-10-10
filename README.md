@@ -1,8 +1,41 @@
-# SocialMEI.IA
+<p align="center">
+  <img src="docs/assets/socialmei-banner.svg" alt="SocialMEI.IA — Converse. Venda. O SocialMEI organiza o resto." width="100%" />
+</p>
 
-SocialMEI.IA é um CRM experimental para MEIs que reúne atendimento, clientes, vendas, financeiro, catálogo e automações em uma interface web.
+<p align="center">
+  <strong>CRM experimental para MEIs que conecta atendimento, clientes, vendas, financeiro, catálogo e automações em uma experiência única.</strong>
+</p>
 
-**Fonte oficial do frontend: [`frontend/socialmei-app.html`](frontend/socialmei-app.html).** `index.html` e `frontend/socialmei-dashboard.html` encaminham para ela. Não copie HTML entre esses arquivos.
+<p align="center">
+  <a href="https://socialmei-ia.github.io/SocialMEI-IA/">Abrir demonstração</a>
+  ·
+  <a href="https://socialmei-ia.github.io/SocialMEI-IA/tools/mike-devhub.html">Mike DevHub</a>
+  ·
+  <a href="ARCHITECTURE.md">Arquitetura</a>
+  ·
+  <a href="ROADMAP.md">Roadmap</a>
+  ·
+  <a href="docs/QA.md">QA</a>
+</p>
+
+<p align="center">
+  <code>HTML + CSS + JavaScript</code>
+  <code>n8n</code>
+  <code>PostgreSQL</code>
+  <code>FastAPI</code>
+  <code>Docker</code>
+</p>
+
+## Visão rápida
+
+| 💬 Atendimento                                                                | 🧾 Gestão do negócio                                                                   | ⚡ Continuidade                                                            |
+| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Caixa Unificada com histórico, contexto do cliente, notas e rascunhos locais. | Clientes, vendas, catálogo e financeiro com CRUD, busca, filtros e indicadores locais. | Automações locais, Assistente contextual, relatórios, temas e backup JSON. |
+
+> **Demonstração pública:** a experiência atual é intencionalmente honesta sobre seus limites. Login não autentica em servidor, o Assistente não chama um modelo de IA remoto e as rotinas não publicam workflows no n8n.
+
+**Fonte oficial do frontend:** [`frontend/socialmei-app.html`](frontend/socialmei-app.html).  
+`index.html` e `frontend/socialmei-dashboard.html` apenas encaminham para ela; não mantenha cópias paralelas da aplicação.
 
 ## Estado atual
 
