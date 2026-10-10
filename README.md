@@ -144,6 +144,8 @@ O frontend usa a raiz do repositório para GitHub Pages. Confira **Settings → 
 ## Manutenção e próxima etapa
 
 - [DEVELOPMENT.md](DEVELOPMENT.md): editar frontend, Python, SQL e workflows.
+- [docs/ONBOARDING.md](docs/ONBOARDING.md): entrada rápida de novos integrantes.
+- [docs/GITHUB-SETUP.md](docs/GITHUB-SETUP.md): proteção da `main`, acessos e deploy controlado.
 - [ARCHITECTURE.md](ARCHITECTURE.md): fluxos reais e limites de cada camada.
 - [DEPLOYMENT.md](DEPLOYMENT.md): publicação, configuração e rollback.
 - [PROJECT-REVIEW.md](PROJECT-REVIEW.md): mapa completo, divergências e dívida técnica.
