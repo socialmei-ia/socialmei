@@ -1,21 +1,23 @@
 # Acessos e permissões — SocialMEI.IA
 
+Os endereços deste guia são referências registradas pela equipe; disponibilidade e contas ativas não foram verificadas nesta revisão. O login local do app não concede acesso a n8n, WAHA, banco ou VPS. Veja [DEPLOYMENT.md](../DEPLOYMENT.md) para a configuração atual.
+
 > Objetivo: permitir que a equipe trabalhe no projeto sem depender do computador ou das credenciais pessoais de um único integrante.
 
 ## Modelo de acesso
 
-| Recurso | Quem deve acessar | Como | Regra |
-|---|---|---|---|
-| GitHub | equipe de desenvolvimento | conta individual | branch + Pull Request |
-| Dashboard | equipe / demonstração | navegador | público pelo GitHub Pages |
-| n8n | integrantes autorizados | conta individual | separar Produção, Testes e Revisar |
-| pgAdmin | quem precisa consultar/manter dados | login individual | nunca compartilhar senha |
-| PostgreSQL | aplicações e responsáveis pelo banco | roles separadas | porta 5432 não pública |
-| VPS / SSH | responsáveis por infraestrutura | usuário Linux + chave própria | acesso sob demanda |
-| Docker | responsáveis por infraestrutura | acesso pela VPS | alto privilégio |
-| AWS | quem administra infraestrutura | IAM/Identity Center individual | nunca compartilhar root |
-| WAHA Dashboard | integrantes autorizados do projeto | HTTPS + login do WAHA | não compartilhar a API key |
-| FastAPI | desenvolvimento e integração | HTTPS | proteger endpoints sensíveis antes de produção |
+| Recurso        | Quem deve acessar                    | Como                           | Regra                                          |
+| -------------- | ------------------------------------ | ------------------------------ | ---------------------------------------------- |
+| GitHub         | equipe de desenvolvimento            | conta individual               | branch + Pull Request                          |
+| Dashboard      | equipe / demonstração                | navegador                      | público pelo GitHub Pages                      |
+| n8n            | integrantes autorizados              | conta individual               | separar Produção, Testes e Revisar             |
+| pgAdmin        | quem precisa consultar/manter dados  | login individual               | nunca compartilhar senha                       |
+| PostgreSQL     | aplicações e responsáveis pelo banco | roles separadas                | porta 5432 não pública                         |
+| VPS / SSH      | responsáveis por infraestrutura      | usuário Linux + chave própria  | acesso sob demanda                             |
+| Docker         | responsáveis por infraestrutura      | acesso pela VPS                | alto privilégio                                |
+| AWS            | quem administra infraestrutura       | IAM/Identity Center individual | nunca compartilhar root                        |
+| WAHA Dashboard | integrantes autorizados do projeto   | HTTPS + login do WAHA          | não compartilhar a API key                     |
+| FastAPI        | desenvolvimento e integração         | HTTPS                          | proteger endpoints sensíveis antes de produção |
 
 ## Princípio principal
 
@@ -147,7 +149,6 @@ Quando alguém não precisar mais de acesso administrativo:
 - [ ] AWS root não é compartilhado;
 - [ ] mudanças de infraestrutura passam por PR;
 - [ ] permissões são removidas quando deixam de ser necessárias.
-
 
 ## WAHA
 

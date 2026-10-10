@@ -2,6 +2,10 @@
 
 O SocialMEI.IA é um projeto acadêmico em desenvolvimento, mas a infraestrutura deve seguir práticas básicas de produção.
 
+O login do frontend é local e demonstrativo: não autentica usuários nem protege o endpoint remoto. O export de leitura n8n ainda usa CORS `*` e não configura autenticação. Resolva autorização/isolamento por negócio antes de expor dados reais. Credenciais técnicas nunca devem ir para `frontend/config.js`.
+
+Esta revisão removeu cabeçalhos Authorization literais dos exports experimentais. A validade dos valores antigos não foi verificada. Se eram credenciais reais, precisam ser revogadas pelos responsáveis; a remoção atual não limpa o histórico Git.
+
 ## Nunca publique
 
 - `.env`;
