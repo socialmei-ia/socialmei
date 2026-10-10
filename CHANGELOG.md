@@ -1,5 +1,15 @@
 # Changelog
 
+## Polimento visual do GitHub e superfícies públicas — 2026-10-10
+
+- README ganhou apresentação visual, navegação curta e visão rápida do produto.
+- Banner SVG foi redesenhado para refletir a identidade atual do SocialMEI: azul, amarelo e interface do produto, removendo referências antigas de Sprint/cyber visual.
+- Metadados Open Graph/Twitter passaram a apontar para o banner visual atualizado.
+- Landing removeu prova social e preços fictícios/pendentes; a seção comercial foi substituída por uma apresentação honesta da demonstração.
+- Rodapé público deixou de exibir contatos, links legais e redes sociais inexistentes; agora mostra apenas destinos reais do projeto e o estado atual da demonstração.
+- Mike DevHub preservou o conceito de cockpit, mas recebeu menos glow, menos ruído, paleta mais próxima do SocialMEI e nomenclatura mais direta em português.
+- Nenhuma lógica de backend, n8n, WAHA, banco, CRUD ou contratos de armazenamento foi alterada nesta rodada.
+
 ## Revisão técnica — 2026-10-10
 
 - Adotado o `socialmei-app.html` aprovado como fonte oficial; V3.14 duplicada substituída por entradas de compatibilidade.
