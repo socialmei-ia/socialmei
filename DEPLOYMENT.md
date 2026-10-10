@@ -73,3 +73,46 @@ O backup não inclui volumes WAHA, pgAdmin ou Caddy e não é um snapshot atômi
 ## Rollback
 
 Frontend/código: reverta o commit pelo Git e publique a revisão anterior completa. Infraestrutura: mantenha o mesmo project name/volumes, restaure a configuração revisada e recrie apenas serviços afetados. Não troque a chave de criptografia n8n. Alterações de banco precisam de plano próprio e backup restaurável.
+
+## Deploy pelo GitHub Actions
+
+O repositório agora inclui `.github/workflows/manual-production-deploy.yml`.
+
+Ele **não faz deploy automático após cada merge**. O objetivo inicial é substituir o processo de abrir SSH manualmente por um deploy controlado e auditável no GitHub.
+
+Antes de usar:
+
+1. proteja a branch `main`;
+2. crie o environment `production`;
+3. configure required reviewers;
+4. cadastre os secrets descritos em [docs/GITHUB-SETUP.md](docs/GITHUB-SETUP.md);
+5. crie uma chave SSH exclusiva do robô de deploy;
+6. confirme que o checkout da VPS está limpo e aponta para o repositório correto.
+
+Depois:
+
+```text
+Actions
+→ Manual production deploy
+→ Run workflow
+→ main
+→ confirmation: DEPLOY
+```
+
+O workflow bloqueia deploy quando existem alterações locais não commitadas na VPS e usa `git pull --ff-only`.
+
+Nesta etapa ele ainda executa `docker compose up -d --build` sobre a pilha existente. O próximo estágio será publicar imagens versionadas e fazer a VPS consumir imagens específicas, reduzindo dependência de build no servidor.
+
+## Staging
+
+O ambiente de staging ainda não deve compartilhar volumes nem banco com produção.
+
+Antes de automatizá-lo, a equipe deve decidir:
+
+- host/subdomínios de staging;
+- banco e volumes próprios;
+- sessão WAHA separada ou WAHA desabilitado;
+- secrets próprios;
+- política de limpeza de dados fictícios.
+
+Não use o banco de produção para testes de desenvolvimento ou homologação.
