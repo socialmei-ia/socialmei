@@ -1,0 +1,35 @@
+name: Temporary visual formatter
+
+on:
+  push:
+    branches:
+      - visual-polish-github-2026-10-10
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: visual-polish-github-2026-10-10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Format changed visual files
+        run: npx prettier --write frontend/socialmei-app.html frontend/styles/socialmei.css README.md
+      - name: Commit formatting if needed
+        run: |
+          if git diff --quiet; then
+            echo "No formatting changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontend/socialmei-app.html frontend/styles/socialmei.css README.md
+          git commit -m "Format visual polish"
+          git push origin HEAD:visual-polish-github-2026-10-10
