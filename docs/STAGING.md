@@ -37,13 +37,13 @@ Crie em:
 
 Cadastre os mesmos nomes de secrets usados em produção, porém com valores exclusivos de staging:
 
-| Secret | Valor |
-| --- | --- |
-| `DEPLOY_HOST` | host/IP do staging |
-| `DEPLOY_USER` | usuário Linux de deploy |
-| `DEPLOY_PATH` | diretório do projeto no staging |
-| `DEPLOY_SSH_KEY` | chave privada exclusiva do staging |
-| `DEPLOY_KNOWN_HOSTS` | host key validada do staging |
+| Secret               | Valor                              |
+| -------------------- | ---------------------------------- |
+| `DEPLOY_HOST`        | host/IP do staging                 |
+| `DEPLOY_USER`        | usuário Linux de deploy            |
+| `DEPLOY_PATH`        | diretório do projeto no staging    |
+| `DEPLOY_SSH_KEY`     | chave privada exclusiva do staging |
+| `DEPLOY_KNOWN_HOSTS` | host key validada do staging       |
 
 Nunca reutilize a chave privada da produção.
 
