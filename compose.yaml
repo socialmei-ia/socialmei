@@ -69,32 +69,60 @@ services:
     depends_on:
       - n8n
       - pgadmin
+      - python-api
+      - waha
     ports:
       - "80:80"
       - "443:443"
     environment:
       N8N_HOST: ${N8N_HOST}
       PGADMIN_HOST: ${PGADMIN_HOST}
+      WAHA_HOST: ${WAHA_HOST:-waha.54-94-213-7.sslip.io}
+      PYTHON_API_HOST: ${PYTHON_API_HOST:-api.54-94-213-7.sslip.io}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
 
-   waha:
+  python-api:
+    build:
+      context: ./python-service
+    container_name: socialmei-python
+    restart: unless-stopped
+    expose:
+      - "8000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  waha:
     image: devlikeapro/waha:latest
     platform: linux/amd64
+    container_name: socialmei-waha
+    restart: unless-stopped
     environment:
-      WHATSAPP_HOOK_URL: https://socialmei.54-94-213-7.sslip.io/
+      WHATSAPP_HOOK_URL: ${WHATSAPP_HOOK_URL:-https://socialmei.54-94-213-7.sslip.io/}
       WHATSAPP_DEFAULT_ENGINE: GOWS
       WHATSAPP_HOOK_EVENTS: message
-      WAHA_NO_API_KEY: true
-      WAHA_DASHBOARD_NO_PASSWORD: true
-      WHATSAPP_SWAGGER_NO_PASSWORD: true
+      WAHA_DASHBOARD_ENABLED: "true"
+      WAHA_DASHBOARD_USERNAME: ${WAHA_DASHBOARD_USERNAME:?Defina WAHA_DASHBOARD_USERNAME no .env}
+      WAHA_DASHBOARD_PASSWORD: ${WAHA_DASHBOARD_PASSWORD:?Defina WAHA_DASHBOARD_PASSWORD no .env}
+      WAHA_API_KEY: ${WAHA_API_KEY:?Defina WAHA_API_KEY no .env}
+      WAHA_NAMESPACE: all
+    ports:
+      - "127.0.0.1:3000:3000"
     volumes:
       - waha_sessions:/app/.sessions
       - waha_media:/app/.media
-    ports:
-      - "3000:3000"
 
 volumes:
   postgres_data:

@@ -1,19 +1,17 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 app = FastAPI(title="SocialME Python Service")
 
 
-class TextoEntrada(BaseModel):
-    texto: str
+class TextInput(BaseModel):
+    # Mantém o contrato usado pelo workflow n8n.
+    text: str = Field(alias="texto")
 
 
 @app.get("/")
 def root():
-    return {
-        "status": "ok",
-        "service": "socialmei-python"
-    }
+    return {"status": "ok", "service": "socialmei-python"}
 
 
 @app.get("/health")
@@ -22,11 +20,10 @@ def health():
 
 
 @app.post("/processar")
-def processar(dados: TextoEntrada):
-    texto = dados.texto
-
+def process_text(payload: TextInput):
+    text = payload.text
     return {
-        "original": texto,
-        "maiusculo": texto.upper(),
-        "quantidade_caracteres": len(texto)
+        "original": text,
+        "maiusculo": text.upper(),
+        "quantidade_caracteres": len(text),
     }
