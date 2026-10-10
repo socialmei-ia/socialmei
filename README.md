@@ -54,6 +54,20 @@
 
 O Compose descreve infraestrutura; sua presença no Git não comprova disponibilidade online. O backend atual não oferece autenticação, API de gestão, isolamento entre negócios ou envio do composer.
 
+## Começar a desenvolver
+
+Para novos integrantes, o fluxo recomendado é:
+
+```bash
+git clone https://github.com/socialmei-ia/SocialMEI-IA.git
+cd SocialMEI-IA
+npm ci
+npm run setup
+npm run dev
+```
+
+Isso sobe um ambiente local isolado com frontend, PostgreSQL, n8n e FastAPI. Veja [docs/ONBOARDING.md](docs/ONBOARDING.md).
+
 ## Executar o frontend
 
 Pré-requisitos: Git, Python 3 e navegador.

@@ -39,7 +39,9 @@ jobs:
       - name: Shell syntax
         run: bash -n backup.sh
       - name: Compose configuration without starting services
-        run: docker compose --env-file .env.example config --quiet
+        run: |
+          docker compose --env-file .env.example config --quiet
+          docker compose --env-file .env.development.example -f compose.dev.yaml config --quiet
       - name: README assets and stale repository URLs
         run: |
           test -f docs/assets/socialmei-banner.png

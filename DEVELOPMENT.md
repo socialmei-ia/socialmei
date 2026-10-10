@@ -2,14 +2,37 @@
 
 ## Preparação
 
+O caminho recomendado para a equipe é usar o ambiente Docker local:
+
 ```bash
 git switch main
 git pull --ff-only origin main
 git switch -c feat/nome-da-tarefa
-python -m http.server 5500
+npm ci
+npm run setup
+npm run dev
 ```
 
-Abra http://localhost:5500. Não edite as entradas de redirecionamento para criar uma segunda aplicação. Para ferramentas de manutenção, use Node 22+ e `npm ci`. O site continua sem framework e sem build.
+Abra:
+
+- Frontend: http://localhost:5500
+- n8n: http://localhost:5678
+- FastAPI: http://localhost:8000/health
+
+O ambiente padrão também cria um PostgreSQL local isolado. pgAdmin e WAHA são opcionais:
+
+```bash
+npm run dev:tools
+npm run dev:waha
+```
+
+Veja [docs/ONBOARDING.md](docs/ONBOARDING.md) para o passo a passo completo.
+
+Se quiser trabalhar apenas no frontend sem Docker, ainda é possível usar:
+
+```bash
+python -m http.server 5500
+```
 
 ## Onde editar
 

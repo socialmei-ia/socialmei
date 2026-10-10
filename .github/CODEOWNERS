@@ -1,0 +1,10 @@
+# Responsável padrão enquanto a equipe ainda não está organizada em GitHub Teams.
+* @socialmei-ia
+
+# Áreas sensíveis
+/database/ @socialmei-ia
+/n8n-workflows/ @socialmei-ia
+/compose*.yaml @socialmei-ia
+/Caddyfile @socialmei-ia
+/backup.sh @socialmei-ia
+/.github/ @socialmei-ia
