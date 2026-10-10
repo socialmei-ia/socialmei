@@ -15717,7 +15717,11 @@ body.management-active #per {
   border: 1px solid var(--landing-border);
   border-radius: 24px;
   background:
-    radial-gradient(circle at 12% 4%, color-mix(in srgb, var(--landing-kicker) 11%, transparent), transparent 34%),
+    radial-gradient(
+      circle at 12% 4%,
+      color-mix(in srgb, var(--landing-kicker) 11%, transparent),
+      transparent 34%
+    ),
     var(--landing-surface);
   box-shadow: var(--landing-shadow-soft);
 }
@@ -15899,7 +15903,10 @@ body.management-active #per {
 }
 .landing-footer-grid {
   display: grid;
-  grid-template-columns: minmax(220px, 1.35fr) minmax(150px, 0.8fr) minmax(150px, 0.8fr) minmax(240px, 1.15fr);
+  grid-template-columns: minmax(220px, 1.35fr) minmax(150px, 0.8fr) minmax(150px, 0.8fr) minmax(
+      240px,
+      1.15fr
+    );
   gap: 24px;
 }
 .landing-footer-grid > nav,

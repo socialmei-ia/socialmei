@@ -28,8 +28,8 @@
 
 ## Visão rápida
 
-| 💬 Atendimento | 🧾 Gestão do negócio | ⚡ Continuidade |
-| --- | --- | --- |
+| 💬 Atendimento                                                                | 🧾 Gestão do negócio                                                                   | ⚡ Continuidade                                                            |
+| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | Caixa Unificada com histórico, contexto do cliente, notas e rascunhos locais. | Clientes, vendas, catálogo e financeiro com CRUD, busca, filtros e indicadores locais. | Automações locais, Assistente contextual, relatórios, temas e backup JSON. |
 
 > **Demonstração pública:** a experiência atual é intencionalmente honesta sobre seus limites. Login não autentica em servidor, o Assistente não chama um modelo de IA remoto e as rotinas não publicam workflows no n8n.
