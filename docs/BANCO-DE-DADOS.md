@@ -58,9 +58,30 @@ As senhas não ficam no GitHub.
 
 Em ambiente **novo e isolado**, crie `socialmei_admin` e defina a senha interativamente (`\password socialmei_admin`) usando um administrador. Aplique bootstrap com administrador, schema como `socialmei_admin` e permissions com administrador. As tabelas precisam pertencer a `socialmei_admin` para que seus default privileges se apliquem às próximas tabelas.
 
-Esses arquivos citam o banco `n8n`; se `POSTGRES_DB` for outro, revise os grants antes de aplicar. O Compose não monta nem executa esses scripts automaticamente. Não há migrations incrementais versionadas; `CREATE TABLE IF NOT EXISTS` não atualiza uma tabela existente para um schema novo.
+Esses arquivos citam o banco `n8n`; se `POSTGRES_DB` for outro, revise os grants antes de aplicar. O Compose não monta nem executa esses scripts automaticamente. A partir desta fase, novas mudanças estruturais devem entrar em `database/migrations/`.
 
-Não foram executados SQL, permissões ou restauração em um PostgreSQL real nesta revisão. O workflow insere mensagens sem deduplicação de evento externo e retorna só as últimas 50 mensagens de entrada; veja [ARCHITECTURE.md](../ARCHITECTURE.md) e [ROADMAP.md](../ROADMAP.md).
+A primeira migration, `001_initial_socialmei_schema.sql`, representa a estrutura funcional atualmente versionada e é idempotente. Em desenvolvimento local:
+
+```bash
+npm run dev
+npm run db:status
+npm run db:migrate
+```
+
+O executor registra versões em `socialmei.schema_migrations` no PostgreSQL local. Ele foi criado para o ambiente de desenvolvimento e **não aplica migrations automaticamente em produção**.
+
+Os arquivos históricos `bootstrap.sql`, `schema.sql` e `permissions.sql` continuam como referência de bootstrap/roles. Novas alterações incrementais devem ser criadas como migrations numeradas:
+
+```text
+database/migrations/
+  001_initial_socialmei_schema.sql
+  002_nome_da_mudanca.sql
+  003_outra_mudanca.sql
+```
+
+Uma migration aplicada nunca deve ser reescrita. Para corrigir algo, crie uma nova migration.
+
+Estas migrations ainda não foram aplicadas automaticamente na produção. Aplicação em ambiente real exige backup, revisão e execução controlada. O workflow insere mensagens sem deduplicação de evento externo e retorna só as últimas 50 mensagens de entrada; veja [ARCHITECTURE.md](../ARCHITECTURE.md) e [ROADMAP.md](../ROADMAP.md).
 
 ## Alterando a estrutura
 
