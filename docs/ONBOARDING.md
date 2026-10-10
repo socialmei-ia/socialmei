@@ -21,7 +21,6 @@ Não é necessário SSH/AWS para editar e testar o frontend. A aplicação possu
 
 Não versione `.env`, chaves, credenciais, dumps, screenshots com dados reais ou novos HTMLs de backup. O Git preserva as versões anteriores.
 
-
 ## Banco local e migrations
 
 Depois de subir o ambiente:

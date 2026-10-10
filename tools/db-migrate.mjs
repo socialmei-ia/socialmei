@@ -63,9 +63,7 @@ function psql(sql, { tuplesOnly = false } = {}) {
   });
 
   if (result.error) {
-    fail(
-      "Não foi possível executar Docker. Confirme se o ambiente está ativo com \"npm run dev\".",
-    );
+    fail('Não foi possível executar Docker. Confirme se o ambiente está ativo com "npm run dev".');
   }
 
   if (result.status !== 0) {
@@ -96,10 +94,9 @@ function migrationFiles() {
 
 function appliedVersions() {
   ensureMigrationTable();
-  const output = psql(
-    "SELECT version FROM socialmei.schema_migrations ORDER BY version;",
-    { tuplesOnly: true },
-  );
+  const output = psql("SELECT version FROM socialmei.schema_migrations ORDER BY version;", {
+    tuplesOnly: true,
+  });
 
   return new Set(
     output

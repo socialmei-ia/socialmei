@@ -62,13 +62,13 @@ Recomendado:
 
 Cadastre estes secrets no environment `production`:
 
-| Secret | Conteúdo |
-| --- | --- |
-| `DEPLOY_HOST` | host/IP público da VPS |
-| `DEPLOY_USER` | usuário Linux dedicado para deploy |
-| `DEPLOY_PATH` | diretório do checkout na VPS, ex. `/home/ubuntu/socialmei` |
-| `DEPLOY_SSH_KEY` | chave privada exclusiva do robô de deploy |
-| `DEPLOY_KNOWN_HOSTS` | linha validada do host para `~/.ssh/known_hosts` |
+| Secret               | Conteúdo                                                   |
+| -------------------- | ---------------------------------------------------------- |
+| `DEPLOY_HOST`        | host/IP público da VPS                                     |
+| `DEPLOY_USER`        | usuário Linux dedicado para deploy                         |
+| `DEPLOY_PATH`        | diretório do checkout na VPS, ex. `/home/ubuntu/socialmei` |
+| `DEPLOY_SSH_KEY`     | chave privada exclusiva do robô de deploy                  |
+| `DEPLOY_KNOWN_HOSTS` | linha validada do host para `~/.ssh/known_hosts`           |
 
 Não use a chave privada pessoal de um integrante como `DEPLOY_SSH_KEY`.
 

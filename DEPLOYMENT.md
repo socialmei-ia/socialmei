@@ -74,7 +74,6 @@ O backup não inclui volumes WAHA, pgAdmin ou Caddy e não é um snapshot atômi
 
 Frontend/código: reverta o commit pelo Git e publique a revisão anterior completa. Infraestrutura: mantenha o mesmo project name/volumes, restaure a configuração revisada e recrie apenas serviços afetados. Não troque a chave de criptografia n8n. Alterações de banco precisam de plano próprio e backup restaurável.
 
-
 ## Deploy pelo GitHub Actions
 
 O repositório agora inclui `.github/workflows/manual-production-deploy.yml`.
