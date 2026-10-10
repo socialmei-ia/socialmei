@@ -82,7 +82,7 @@ Separados 22 blocos executáveis em scripts com nomes por responsabilidade, mais
 
 O CSS continua em um arquivo legível para manter a cascata. Foi consolidado somente um par de media queries adjacentes idênticas; 13.010 declarações mantiveram ordem, contexto e valores (com URLs dos assets extraídos). Ícone/fonte preservaram seus bytes. Remoção ampla de overrides depende de regressão visual executável.
 
-As novas separações reduzem o custo de localizar código, mas não transformam os globais em módulos isolados. Não foram renomeados contratos persistidos nem eliminadas funcionalidades. Veja [docs/QA.md](docs/QA.md).
+As novas separações reduzem o custo de localizar código, mas não transformam os globais em módulos isolados. Não foram renomeados contratos persistidos nem eliminadas funcionalidades. Após a liberação do ambiente, a regressão no Chromium passou em 88 estados e oito fluxos; os contratos HTTP da API auxiliar também passaram. A branch foi publicada no [PR #6](https://github.com/socialmei-ia/SocialMEI-IA/pull/6). Veja [docs/QA.md](docs/QA.md).
 
 ## Dívida técnica e riscos
 

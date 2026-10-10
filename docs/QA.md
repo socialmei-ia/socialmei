@@ -12,16 +12,22 @@
 | Assets extraídos                                         | Ícone e fonte com bytes idênticos aos data URIs da fonte aprovada; licença Inter preservada.                                   |
 | Compose                                                  | `docker compose --env-file .env.example config --quiet` passou. Antes da correção, YAML inválido.                              |
 | Shell                                                    | `bash -n backup.sh` passou.                                                                                                    |
+| Regressão offline no Chromium                            | 88 estados (11 módulos × 4 larguras × claro/escuro) e oito fluxos passaram, sem erros JavaScript.                              |
+| HTTP da API Python                                       | TestClient confirmou `/`, `/health`, resposta de `/processar` e rejeição de payload inválido (422).                            |
+| Dependências e formatação                                | `npm ci --ignore-scripts --no-audit --no-fund` e `npm run format:check` passaram.                                              |
 
 Os testes são reproduzíveis pelos comandos do [DEVELOPMENT.md](../DEVELOPMENT.md). A comparação pontual AST/cascata foi feita contra o arquivo aprovado fornecido nesta sessão; SHA-256 e origem estão em [PROJECT-REVIEW.md](../PROJECT-REVIEW.md).
 
-## Não executado neste ambiente
+Após a liberação das permissões do ambiente, o navegador e o TestClient puderam executar. A regressão usou `CHROMIUM_EXECUTABLE=/usr/bin/chromium`, serviços externos bloqueados e movimento reduzido. Verificou cadastro/login/onboarding locais, CRUD e busca vazia, rascunhos do Inbox, Assistente sem envio, automações simuladas, CSV, persistência, exclusão e restauração JSON, sidebar mobile, temas automático/custom e toasts. Resumo e oito capturas estão em `test-results/`.
 
-- Chromium não iniciou: sandbox bloqueou operação de socket do processo. A suíte `npm run test:browser` foi adicionada para CI/ambiente compatível, mas **não se considera aprovada por ter sido escrita**.
-- Daemon Docker inacessível pelo socket local. A validação Compose foi possível sem daemon; build/containers, Caddy/TLS, PostgreSQL, n8n e WAHA não foram executados.
-- Teste HTTP in-process por TestClient não concluiu neste ambiente; os testes Python executados são de modelo/função/rotas, sem alegar um teste HTTP completo.
+## Publicação
+
+A branch `chore/project-review` foi enviada ao GitHub e o [PR #6](https://github.com/socialmei-ia/SocialMEI-IA/pull/6) foi aberto como rascunho. O CI remoto precisa ser conferido antes do merge. A publicação não aplica mudanças na VPS.
+
+## Não executado nesta revisão
+
+- O daemon Docker local ficou acessível após a liberação, mas build/containers, Caddy/TLS, PostgreSQL, n8n e WAHA não foram executados. A validação Compose não prova funcionamento da infraestrutura.
 - Sem acesso à VPS/serviços externos: nenhuma mensagem enviada, credencial validada, workflow ativado, consulta SQL aplicada, sessão WAHA iniciada ou backup real produzido.
-- Git via shell não alcançou o proxy configurado. A leitura pelo conector GitHub confirmou o HEAD, mas `create_branch` foi bloqueado: a ferramenta exige aprovação e a política do ambiente é `never`. Os cinco commits existem somente no checkout local; não houve push, PR ou execução do CI remoto.
 
 ## Gate antes do merge/deploy
 

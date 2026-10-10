@@ -4,13 +4,13 @@ Prioridades: **P0** bloqueia uso real do fluxo principal; **P1** prepara a próx
 
 ## Próxima etapa
 
-| Prioridade | Mudança                                                            | Evidência e conclusão esperada                                                                                                                      |
-| ---------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P0         | Validar n8n/PostgreSQL em ambiente isolado                         | Export inativo, credenciais externas e SQL não automático. Reproduzir POST → banco → GET → Inbox e registrar versão do n8n/configuração.            |
-| P0         | Proteger leitura/recebimento de mensagens                          | Export sem autenticação e CORS `*`; login local não protege dados remotos. Definir autenticação, autorização, origem e rate limit fora do frontend. |
-| P0         | Definir fronteira de dados e identidade do CRM                     | Gestão usa localStorage e não há multiempresa/backend CRUD. Especificar usuários/negócios e migração sem perder backups existentes.                 |
-| P1         | Executar regressão visual e funcional no CI/ambiente com navegador | Refatoração estrutural preserva AST/cascata; Chromium foi bloqueado no ambiente desta revisão. Exigir sucesso do job de navegador antes do merge.   |
-| P1         | Conferir WAHA/Compose na VPS sem redefinir volumes                 | Compose anterior inválido e flags sem senha conflitavam com docs. Validar versão, credenciais, bind local e destino do hook com alvos de teste.     |
+| Prioridade | Mudança                                                     | Evidência e conclusão esperada                                                                                                                       |
+| ---------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| P0         | Validar n8n/PostgreSQL em ambiente isolado                  | Export inativo, credenciais externas e SQL não automático. Reproduzir POST → banco → GET → Inbox e registrar versão do n8n/configuração.             |
+| P0         | Proteger leitura/recebimento de mensagens                   | Export sem autenticação e CORS `*`; login local não protege dados remotos. Definir autenticação, autorização, origem e rate limit fora do frontend.  |
+| P0         | Definir fronteira de dados e identidade do CRM              | Gestão usa localStorage e não há multiempresa/backend CRUD. Especificar usuários/negócios e migração sem perder backups existentes.                  |
+| P1         | Confirmar regressão no CI e revisar a interface visualmente | AST/cascata preservados; regressão local passou em 88 estados e oito fluxos. Exigir sucesso do job remoto e revisar movimento normal antes do merge. |
+| P1         | Conferir WAHA/Compose na VPS sem redefinir volumes          | Compose anterior inválido e flags sem senha conflitavam com docs. Validar versão, credenciais, bind local e destino do hook com alvos de teste.      |
 
 ## Curto prazo
 
